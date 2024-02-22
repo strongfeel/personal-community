@@ -48,7 +48,7 @@
 ![스크린샷 2024-02-22 201217](https://github.com/strongfeel/personal-community/assets/92740959/9b27a02e-03cf-4e04-be7d-0b4d651dbca4)
 
 ## Trouble Shooting
-[go to the trouble shooting section](doc/TROUBLE_SHOOTING.md)
+[go to the trouble shooting section](TROUBLE_SHOOTING.md)
 
 
 ### Tech Stack
