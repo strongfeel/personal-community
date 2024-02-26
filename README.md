@@ -36,7 +36,7 @@
     - 특정 게시글 조회시 댓글목록도 함께 조회가 된다. 다만 댓글은 많을 수 있기 때문에 별도의 API로 구성한다.
     - 로그인하지 않은 사용자를 포함한 모든 사용자가 댓글을 조회할 수 있다.
     - 댓글은 최신순으로만 정렬되며, 30개씩 paging 처리를 한다. 
-    - 댓글 목록 조회시에는 댓글 작성자와 댓글 내용, 댓글 작성일의 정보가 필요하다.
+    - 댓글 목록 조회시에는 작성자와 댓글 내용, 댓글 작성일의 정보가 필요하다.
 
 2) 댓글 작성 기능
     - 로그인한 사용자는 권한에 관계 없이 댓글을 작성할 수 있다. 
@@ -47,7 +47,7 @@
     - 작성자 본인의 댓글만 수정하거나 삭제할 수 있다.
 
 ## ERD 
-![스크린샷 2024-02-22 201217](https://github.com/strongfeel/personal-community/assets/92740959/9b27a02e-03cf-4e04-be7d-0b4d651dbca4)
+![스크린샷 2024-02-26 153409](https://github.com/strongfeel/personal-community/assets/92740959/95b85be9-ac42-4a5a-a6d2-437cae1864f6)
 
 ## Trouble Shooting
 [go to the trouble shooting section](TROUBLE_SHOOTING.md)
