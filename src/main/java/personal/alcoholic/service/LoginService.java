@@ -33,7 +33,7 @@ public class LoginService {
     if (user.isPresent()) {
       session.setAttribute(LOGIN_SESSION_KEY, user.get().getUserId());
     } else {
-      throw new RuntimeException("password or email not match");
+      throw new RuntimeException("비밀번호와 이메일이 일치하지 않습니다.");
     }
   }
 
