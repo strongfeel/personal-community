@@ -1,48 +1,40 @@
 package personal.alcoholic.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import personal.alcoholic.model.User;
-import personal.alcoholic.model.UserRole;
-import personal.alcoholic.repository.UserRepository;
+import personal.alcoholic.domain.dto.SignUpRequest;
+import personal.alcoholic.domain.entity.User;
+import personal.alcoholic.domain.repository.UserRepository;
+import personal.alcoholic.domain.util.Encryptor;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-  @Autowired
-  private UserRepository userRepository;
-
-  @Autowired
-  private BCryptPasswordEncoder encoder;
+  private final Encryptor encryptor;
+  private final UserRepository userRepository;
 
   @Transactional
-  public void signUp(User user) {
-    String rawPassword = user.getPassword();// 평문으로된 패스워드를 암호화 작업
-    String encodePassword = encoder.encode(rawPassword);
-    user.setPassword(encodePassword);
-    user.setRole(UserRole.USER);
-    userRepository.save(user);
-  }
-
-  @Transactional(readOnly = true)
-  public User findUser(String name) {
-    User user = userRepository.findByName(name).orElseGet(User::new);
-    return user;
+  public User create(SignUpRequest signUpRequest) {
+    userRepository.findByEmail(signUpRequest.getEmail())
+        .ifPresent(u -> {
+          throw new RuntimeException("user already existed!");
+        });
+    return userRepository.save(new User(
+        signUpRequest.getEmail(),
+        encryptor.encrypt(signUpRequest.getPassword()),
+        signUpRequest.getName(),
+        signUpRequest.getNickname(),
+        signUpRequest.getPhone(),
+        signUpRequest.getBirth()
+    ));
   }
 
   @Transactional
-  public void updateUserInfo(User user) {
-    long id = user.getUserid();
-    User currUser = userRepository.findById(id)
-        .orElseThrow(() -> new IllegalStateException(("Failed to load User Info : annot find User id")));
-
-    //Validate
-    if (currUser.getRole() == UserRole.USER) {
-      String rawPassword = user.getPassword();
-      String encodePassword = encoder.encode(rawPassword);
-      currUser.setPassword(encodePassword); // 비밀번호 변경
-    }
+  public Optional<User> findPwMatchUser(String email, String password) {
+    return userRepository.findByEmail(email)
+        .map(user -> user.isMatch(encryptor, password) ? user : null);
   }
 }
