@@ -39,7 +39,8 @@ public class UserService {
         signUpRequest.getName(),
         signUpRequest.getNickname(),
         signUpRequest.getPhone(),
-        signUpRequest.getBirth()
+        signUpRequest.getBirth(),
+        UserRole.USER
         )
     );
   }
